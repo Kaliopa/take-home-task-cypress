@@ -1,0 +1,5 @@
+{
+  "emptyLoginForm.ErrorMessage": "Please fill out Username and Password.",
+  "nonExistentUser.ErrorMessage": "User does not exist.",
+  "wrongPassword.ErrorMessage": "Wrong password."
+}

@@ -1,0 +1,13 @@
+{
+  "laptopModel": "MacBook air",
+  "includeTaxString": "*includes tax",
+  "descriptionSubtitle": "Product description",
+  "alertTextOnAddToCart": "Product added.",
+  "cardExpirationMonth": "12",
+  "cardExpirationYear": "2030",
+  "purchaseSuccessTitle": "Thank you for your purchase!",
+  "orderConfirmationFields": ["Id:", "Amount:", "Date:"],
+  "cheapestLaptopModel": "ASUS Full HD",
+  "cheapestLaptopPrice": "230",
+  "emptyOrderForm.ErrorMessage": "Please fill out Name and Creditcard."
+}
