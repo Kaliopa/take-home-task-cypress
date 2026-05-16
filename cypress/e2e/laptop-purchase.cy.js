@@ -84,6 +84,7 @@ describe("Laptop purchase", () => {
         title: testData.purchaseSuccessTitle,
         fields: testData.orderConfirmationFields,
         name: fullName,
+        card: creditCard,
         price: laptopPrice,
       });
       cy.get("button").contains("OK").click();
@@ -138,6 +139,7 @@ describe("Laptop purchase", () => {
         fields: testData.orderConfirmationFields,
         name: fullName,
         price: "0",
+        card: creditCard,
       });
       cy.get("button").contains("OK").click();
       cy.get("#cat").should("be.visible");

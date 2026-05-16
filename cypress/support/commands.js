@@ -45,15 +45,15 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   "verifySuccessPurchaseModal",
-  ({ title, fields, name, price } = {}) => {
+  ({ title, fields, name, price, card } = {}) => {
     cy.get(".sweet-alert").should("have.class", "visible").contains(title);
 
     cy.get(".sweet-alert p")
       .invoke("text")
       .should("have.string", fields[0])
-      .should("have.string", fields[1])
-      .should("have.string", price)
-      .should("have.string", `Name: ${name}`)
-      .should("have.string", fields[2]);
+      .should("have.string", fields[2])
+      .should("have.string", `${fields[3]}: ${card}`)
+      .should("have.string", `${fields[1]}: ${price}`)
+      .should("have.string", `${fields[4]}: ${name}`);
   },
 );
