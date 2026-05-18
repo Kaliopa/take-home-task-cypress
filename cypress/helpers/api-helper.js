@@ -10,7 +10,6 @@ export function clearCartIfNeeded() {
         }).then((response) => {
           expect(response.status).to.equal(200);
           const items = response.body.Items ?? [];
-          cy.log(`Cart has ${items.length} item(s)`); // logs just for visibility, would remove for production
           items.forEach((item) => {
             cy.request({
               method: "POST",
@@ -18,7 +17,6 @@ export function clearCartIfNeeded() {
               body: { id: item.id },
             }).then((deleteResponse) => {
               expect(deleteResponse.status).to.equal(200);
-              cy.log(`Deleted item ${item.id}`); // logs just for visibility, would remove for production
             });
           });
         });
