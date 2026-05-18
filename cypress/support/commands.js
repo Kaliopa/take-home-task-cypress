@@ -1,26 +1,26 @@
+import { NAV, LOGIN_MODAL, ORDER_MODAL, SUCCESS_MODAL } from "./selectors";
+
 Cypress.Commands.add("login", (username, password) => {
   cy.session(username, () => {
     cy.visit("/");
-    cy.get("#login2").click();
-    cy.get("#logInModal").should("have.class", "show");
+    cy.get(NAV.LOGIN_BTN).click();
+    cy.get(LOGIN_MODAL.MODAL).should("have.class", "show");
     cy.fillInLoginForm(username, password);
     cy.get("button").contains("Log in").click();
-    cy.get("#logInModal").should("not.have.class", "show");
+    cy.get(LOGIN_MODAL.MODAL).should("not.have.class", "show");
   });
 });
 
-Cypress.Commands.add("fillInInputFieldViaDOM", (selector, value) => {
-  cy.get(selector).invoke("val", value).trigger("input").trigger("change"); // used claude to help me figure out how to insert full value in input field because whith .type() focus was stolen in the middle and username was incomplete, also tried .click().type() it worked but was flaky
-});
-
 Cypress.Commands.add("fillInLoginForm", (username, password) => {
-  cy.fillInInputFieldViaDOM("#loginusername", username);
-  cy.fillInInputFieldViaDOM("#loginpassword", password);
+  if (username) cy.get(LOGIN_MODAL.USERNAME_INPUT).click().clear().type(username);
+  else cy.get(LOGIN_MODAL.USERNAME_INPUT).clear();
+  if (password) cy.get(LOGIN_MODAL.PASSWORD_INPUT).click().clear().type(password);
+  else cy.get(LOGIN_MODAL.PASSWORD_INPUT).clear();
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.get("#logout2").click();
-  cy.get("#signin2").should("be.visible");
+  cy.get(NAV.LOGOUT_BTN).click();
+  cy.get(NAV.SIGNIN_BTN).should("be.visible");
 });
 
 Cypress.Commands.add("clickElementAndVerifyAlert", (element, alertText) => {
@@ -34,26 +34,25 @@ Cypress.Commands.add("clickElementAndVerifyAlert", (element, alertText) => {
 Cypress.Commands.add(
   "fillInPlaceOrderModal",
   ({ name, country, city, card, month, year } = {}) => {
-    if (name) cy.fillInInputFieldViaDOM("#name", name);
-    if (country) cy.get("#country").click().type(country);
-    if (city) cy.get("#city").type(city);
-    if (card) cy.get("#card").type(card);
-    if (month) cy.get("#month").type(month);
-    if (year) cy.get("#year").type(year);
+    if (name) cy.get(ORDER_MODAL.NAME_INPUT).click().clear().type(name);
+    if (country) cy.get(ORDER_MODAL.COUNTRY_INPUT).click().type(country);
+    if (city) cy.get(ORDER_MODAL.CITY_INPUT).type(city);
+    if (card) cy.get(ORDER_MODAL.CARD_INPUT).type(card);
+    if (month) cy.get(ORDER_MODAL.MONTH_INPUT).type(month);
+    if (year) cy.get(ORDER_MODAL.YEAR_INPUT).type(year);
   },
 );
 
 Cypress.Commands.add(
   "verifySuccessPurchaseModal",
-  ({ title, fields, name, price, card } = {}) => {
-    cy.get(".sweet-alert").should("have.class", "visible").contains(title);
-
-    cy.get(".sweet-alert p")
+  ({ title, orderConfirmation, name, price, card } = {}) => {
+    cy.get(SUCCESS_MODAL.CONTAINER).should("have.class", "visible").contains(title);
+    cy.get(SUCCESS_MODAL.CONTENT)
       .invoke("text")
-      .should("have.string", fields[0])
-      .should("have.string", fields[2])
-      .should("have.string", `${fields[3]}: ${card}`)
-      .should("have.string", `${fields[1]}: ${price}`)
-      .should("have.string", `${fields[4]}: ${name}`);
+      .should("have.string", orderConfirmation.id)
+      .should("have.string", orderConfirmation.date)
+      .should("have.string", `${orderConfirmation.cardNumber}: ${card}`)
+      .should("have.string", `${orderConfirmation.amount}: ${price}`)
+      .should("have.string", `${orderConfirmation.name}: ${name}`);
   },
 );
