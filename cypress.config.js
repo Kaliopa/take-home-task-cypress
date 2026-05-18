@@ -5,8 +5,6 @@ module.exports = defineConfig({
     baseUrl: "https://www.demoblaze.com/",
     env: {
       apiUrl: "https://api.demoblaze.com",
-      username: "annaVdovenko",
-      password: "password123!",
     },
     viewportHeight: 1600,
     viewportWidth: 1200,
