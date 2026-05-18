@@ -36,10 +36,10 @@ Cypress.Commands.add(
   ({ name, country, city, card, month, year } = {}) => {
     if (name) cy.get(ORDER_MODAL.NAME_INPUT).click().clear().type(name);
     if (country) cy.get(ORDER_MODAL.COUNTRY_INPUT).click().type(country);
-    if (city) cy.get(ORDER_MODAL.CITY_INPUT).type(city);
-    if (card) cy.get(ORDER_MODAL.CARD_INPUT).type(card);
-    if (month) cy.get(ORDER_MODAL.MONTH_INPUT).type(month);
-    if (year) cy.get(ORDER_MODAL.YEAR_INPUT).type(year);
+    if (city) cy.get(ORDER_MODAL.CITY_INPUT).click().clear().type(city);
+    if (card) cy.get(ORDER_MODAL.CARD_INPUT).click().clear().type(card);
+    if (month) cy.get(ORDER_MODAL.MONTH_INPUT).click().clear().type(month);
+    if (year) cy.get(ORDER_MODAL.YEAR_INPUT).click().clear().type(year);
   },
 );
 
