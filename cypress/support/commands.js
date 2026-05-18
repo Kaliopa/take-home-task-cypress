@@ -12,10 +12,9 @@ Cypress.Commands.add("login", (username, password) => {
 });
 
 Cypress.Commands.add("fillInLoginForm", (username, password) => {
-  if (username) cy.get(LOGIN_MODAL.USERNAME_INPUT).click().clear().type(username);
-  else cy.get(LOGIN_MODAL.USERNAME_INPUT).clear();
-  if (password) cy.get(LOGIN_MODAL.PASSWORD_INPUT).click().clear().type(password);
-  else cy.get(LOGIN_MODAL.PASSWORD_INPUT).clear();
+  // demoblaze.com steals focus mid-type on these inputs; .invoke/.trigger sets value reliably
+  cy.get(LOGIN_MODAL.USERNAME_INPUT).invoke("val", username ?? "").trigger("input").trigger("change");
+  cy.get(LOGIN_MODAL.PASSWORD_INPUT).invoke("val", password ?? "").trigger("input").trigger("change");
 });
 
 Cypress.Commands.add("logout", () => {
