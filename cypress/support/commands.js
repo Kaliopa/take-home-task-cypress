@@ -35,7 +35,7 @@ Cypress.Commands.add(
   "fillInPlaceOrderModal",
   ({ name, country, city, card, month, year } = {}) => {
     if (name) cy.get(ORDER_MODAL.NAME_INPUT).click().clear().type(name);
-    if (country) cy.get(ORDER_MODAL.COUNTRY_INPUT).click().type(country);
+    if (country) cy.get(ORDER_MODAL.COUNTRY_INPUT).click().clear().type(country);
     if (city) cy.get(ORDER_MODAL.CITY_INPUT).click().clear().type(city);
     if (card) cy.get(ORDER_MODAL.CARD_INPUT).click().clear().type(card);
     if (month) cy.get(ORDER_MODAL.MONTH_INPUT).click().clear().type(month);

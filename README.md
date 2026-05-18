@@ -24,7 +24,11 @@ cypress/
 npm install
 ```
 
-Credentials and API URL are configured in `cypress.config.js` under `env`.
+The API URL is configured in `cypress.config.js`. Credentials must be passed as environment variables when running tests:
+
+```bash
+CYPRESS_username=<username> CYPRESS_password=<password> npm run cy:run
+```
 
 ## Running tests
 
