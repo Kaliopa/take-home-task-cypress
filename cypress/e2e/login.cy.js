@@ -1,19 +1,20 @@
 import { faker } from "@faker-js/faker";
+import { NAV, LOGIN_MODAL } from "../support/selectors";
 
 describe("Login", () => {
   beforeEach(() => {
     cy.visit("/");
-    cy.get("#login2").click();
-    cy.get("#logInModal").should("have.class", "show");
+    cy.get(NAV.LOGIN_BTN).click();
+    cy.get(LOGIN_MODAL.MODAL).should("have.class", "show");
   });
 
   it("Existing user successfully logs in", () => {
     cy.env(["username", "password"]).then(({ username, password }) => {
       cy.fillInLoginForm(username, password);
       cy.get("button").contains("Log in").click();
-      cy.get("#logInModal").should("not.have.class", "show");
+      cy.get(LOGIN_MODAL.MODAL).should("not.have.class", "show");
       cy.visit("/");
-      cy.get("#nameofuser")
+      cy.get(NAV.USERNAME_DISPLAY)
         .should("be.visible")
         .invoke("text")
         .should("have.string", username);
@@ -24,25 +25,27 @@ describe("Login", () => {
   it("Login form is submitted empty, verify error message", () => {
     cy.fixture("login-test-data").then((loginData) => {
       cy.clickElementAndVerifyAlert(
-        "#logInModal .btn-primary",
+        LOGIN_MODAL.SUBMIT_BTN,
         loginData["emptyLoginForm.ErrorMessage"],
       );
     });
   });
 
-  it("One field submitted empty, verify error message", () => {
+  it("Login form submitted with password missing, verify error", () => {
     cy.fixture("login-test-data").then((loginData) => {
       cy.fillInLoginForm("username", "");
       cy.clickElementAndVerifyAlert(
-        "#logInModal .btn-primary",
+        LOGIN_MODAL.SUBMIT_BTN,
         loginData["emptyLoginForm.ErrorMessage"],
       );
+    });
+  });
 
-      cy.get("@alertStub").invoke("resetHistory");
+  it("Login form submitted with username missing, verify error", () => {
+    cy.fixture("login-test-data").then((loginData) => {
       cy.fillInLoginForm("", "password");
-      cy.get("#logInModal .btn-primary").should("be.visible").click();
-      cy.get("@alertStub").should(
-        "have.been.calledOnceWith",
+      cy.clickElementAndVerifyAlert(
+        LOGIN_MODAL.SUBMIT_BTN,
         loginData["emptyLoginForm.ErrorMessage"],
       );
     });
@@ -53,7 +56,7 @@ describe("Login", () => {
     cy.fixture("login-test-data").then((loginData) => {
       cy.fillInLoginForm(wrongUser, "password");
       cy.clickElementAndVerifyAlert(
-        "#logInModal .btn-primary",
+        LOGIN_MODAL.SUBMIT_BTN,
         loginData["nonExistentUser.ErrorMessage"],
       );
     });
@@ -64,7 +67,7 @@ describe("Login", () => {
       cy.env(["username"]).then(({ username }) => {
         cy.fillInLoginForm(username, "password");
         cy.clickElementAndVerifyAlert(
-          "#logInModal .btn-primary",
+          LOGIN_MODAL.SUBMIT_BTN,
           loginData["wrongPassword.ErrorMessage"],
         );
       });
